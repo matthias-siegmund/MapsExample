@@ -1,0 +1,5 @@
+ext.mod = [
+        app  : ":app",
+        core : ":core",
+        map  : ":map",
+]
