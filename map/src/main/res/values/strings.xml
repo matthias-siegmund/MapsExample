@@ -2,4 +2,5 @@
     <string name="info_window_id_title">ID:</string>
     <string name="info_window_battery_title">Battery:</string>
     <string name="info_window_battery_description">%1$d %%</string>
+    <string name="error">Error occurred</string>
 </resources>

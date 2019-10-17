@@ -20,9 +20,13 @@ class MapViewModel(
     val scooters: LiveData<List<Scooter>>
         get() = _scooters
 
-    private val _moveToLocation = MutableLiveData<List<Location>>()
+    private val _zoomOnClusterCenter = MutableLiveData<List<Location>>()
     val zoomOnClusterCenter: LiveData<List<Location>>
-        get() = _moveToLocation
+        get() = _zoomOnClusterCenter
+
+    private val _showError = MutableLiveData<Unit>()
+    val showError: LiveData<Unit>
+        get() = _showError
 
     fun onStart() {
         getScootersForPickup()
@@ -39,9 +43,10 @@ class MapViewModel(
             .observeOn(schedulerConfiguration.ui())
             .subscribe({ scooters ->
                 _scooters.value = scooters
-                _moveToLocation.value = scooters.map { Location(it.latitude, it.longitude) }
+                _zoomOnClusterCenter.value = scooters.map { Location(it.latitude, it.longitude) }
             }, { error ->
                 Timber.e(error, "getScootersForPickup()")
+                _showError.value = Unit
             })
     }
 }
