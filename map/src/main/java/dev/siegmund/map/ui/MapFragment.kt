@@ -81,6 +81,7 @@ class MapFragment : Fragment() {
 
     private fun observeScooters() {
         viewModel.scooters.observe(this, Observer { scooters ->
+            mapView.clearMarkers()
             mapView.addMarkers(scooters)
         })
     }

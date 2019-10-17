@@ -40,6 +40,10 @@ class MapView(context: Context, attrs: AttributeSet?) : MapView(context, attrs) 
         }
     }
 
+    fun clearMarkers() {
+        clusterManager.clearItems()
+    }
+
     fun addMarkers(scooters: List<Scooter>) {
         scooters.forEach { scooter ->
             val position = LatLng(scooter.latitude, scooter.longitude)
