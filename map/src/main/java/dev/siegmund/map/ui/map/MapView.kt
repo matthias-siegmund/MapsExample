@@ -29,13 +29,15 @@ class MapView(context: Context, attrs: AttributeSet?) : MapView(context, attrs) 
     }
 
     fun zoomOnClusterCenter(locations: List<LatLng>) = getMapAsync { map ->
-        val padding = 100
-        map.animateCamera(
-            CameraUpdateFactory.newLatLngBounds(
-                getBoundsForLocations(locations),
-                padding
+        if (locations.isNotEmpty()) {
+            val padding = 100
+            map.animateCamera(
+                CameraUpdateFactory.newLatLngBounds(
+                    getBoundsForLocations(locations),
+                    padding
+                )
             )
-        )
+        }
     }
 
     fun addMarkers(scooters: List<Scooter>) {
