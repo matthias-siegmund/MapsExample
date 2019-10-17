@@ -1,18 +1,21 @@
 package dev.siegmund.map.ui
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import dagger.android.support.AndroidSupportInjection
+import dev.siegmund.map.R
+import dev.siegmund.map.ui.model.MapViewModel
+import dev.siegmund.map.ui.model.MapViewModelFactory
+import kotlinx.android.synthetic.main.fragment_map.*
 import javax.inject.Inject
 
-class MapFragment : SupportMapFragment(), OnMapReadyCallback {
+class MapFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: MapViewModelFactory
@@ -22,37 +25,69 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
             .get(MapViewModel::class.java)
     }
 
-    private lateinit var map: GoogleMap
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AndroidSupportInjection.inject(this)
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.fragment_map, container, false)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getMapAsync(this)
+        mapView.onCreate(savedInstanceState)
         observeScooters()
+        observeZoomOnClusterCenter()
     }
 
     override fun onStart() {
         super.onStart()
+        mapView.onStart()
         viewModel.onStart()
     }
 
-    override fun onMapReady(googleMap: GoogleMap) {
-        map = googleMap
+    override fun onResume() {
+        super.onResume()
+        mapView.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mapView.onPause()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mapView.onStop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mapView.onDestroy()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        mapView.onLowMemory()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        mapView.onSaveInstanceState(outState)
     }
 
     private fun observeScooters() {
         viewModel.scooters.observe(this, Observer { scooters ->
-            getMapAsync { asyncMap ->
-                scooters.forEach { scooter ->
-                    asyncMap.addMarker(
-                        MarkerOptions().position(LatLng(scooter.latitude, scooter.longitude))
-                    )
-                }
-            }
+            mapView.addMarkers(scooters)
+        })
+    }
+
+    private fun observeZoomOnClusterCenter() {
+        viewModel.zoomOnClusterCenter.observe(this, Observer { locations ->
+            mapView.zoomOnClusterCenter(locations.map { LatLng(it.latitude, it.longitude) })
         })
     }
 }

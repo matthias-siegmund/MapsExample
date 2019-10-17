@@ -30,7 +30,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(mod.core)
 
-    api dependency.google.maps
+    api dependency.google.maps.core
+    implementation dependency.google.maps.utils
 
     implementation dependency.kotlin.jdk
 

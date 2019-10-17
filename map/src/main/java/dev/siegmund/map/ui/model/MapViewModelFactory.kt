@@ -1,4 +1,4 @@
-package dev.siegmund.map.ui
+package dev.siegmund.map.ui.model
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -12,7 +12,10 @@ class MapViewModelFactory(
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MapViewModel::class.java)) {
-            return MapViewModel(scooterRepository, schedulerConfiguration) as T
+            return MapViewModel(
+                scooterRepository,
+                schedulerConfiguration
+            ) as T
         }
         throw IllegalArgumentException()
     }

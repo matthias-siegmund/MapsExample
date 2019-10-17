@@ -1,4 +1,4 @@
-package dev.siegmund.map.ui
+package dev.siegmund.map.ui.model
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,6 +20,10 @@ class MapViewModel(
     val scooters: LiveData<List<Scooter>>
         get() = _scooters
 
+    private val _moveToLocation = MutableLiveData<List<Location>>()
+    val zoomOnClusterCenter: LiveData<List<Location>>
+        get() = _moveToLocation
+
     fun onStart() {
         getScootersForPickup()
     }
@@ -33,10 +37,11 @@ class MapViewModel(
         compositeDisposable + scooterRepository.getScootersForPickup()
             .subscribeOn(schedulerConfiguration.computation())
             .observeOn(schedulerConfiguration.ui())
-            .subscribe({
-                _scooters.value = it
+            .subscribe({ scooters ->
+                _scooters.value = scooters
+                _moveToLocation.value = scooters.map { Location(it.latitude, it.longitude) }
             }, { error ->
-                Timber.e(error, "getScooters()")
+                Timber.e(error, "getScootersForPickup()")
             })
     }
 }

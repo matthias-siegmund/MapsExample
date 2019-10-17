@@ -8,7 +8,7 @@ import dev.siegmund.core.rx.SchedulerConfiguration
 import dev.siegmund.map.api.ScooterApi
 import dev.siegmund.map.api.ScooterRepository
 import dev.siegmund.map.api.ScooterRepositoryImpl
-import dev.siegmund.map.ui.MapViewModelFactory
+import dev.siegmund.map.ui.model.MapViewModelFactory
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -36,8 +36,9 @@ class MapModule {
     fun providesMapViewModelFactory(
         scooterRepository: ScooterRepository,
         schedulerConfiguration: SchedulerConfiguration
-    ): MapViewModelFactory = MapViewModelFactory(
-        scooterRepository,
-        schedulerConfiguration
-    )
+    ): MapViewModelFactory =
+        MapViewModelFactory(
+            scooterRepository,
+            schedulerConfiguration
+        )
 }

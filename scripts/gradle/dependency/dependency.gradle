@@ -5,7 +5,10 @@ ext.dependency = [
                 lifecycle       : "androidx.lifecycle:lifecycle-extensions:${versions.androidx.lifecycle}",
         ],
         google   : [
-                maps : "com.google.android.gms:play-services-maps:${versions.google.maps}",
+                maps  : [
+                        core : "com.google.android.gms:play-services-maps:${versions.google.maps.core}",
+                        utils: "com.google.maps.android:android-maps-utils:${versions.google.maps.utils}"
+                ],
                 dagger: [
                         android : [
                                 core     : "com.google.dagger:dagger-android-support:${versions.google.dagger}",

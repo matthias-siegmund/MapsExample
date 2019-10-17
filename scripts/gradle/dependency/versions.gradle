@@ -5,7 +5,10 @@ ext.versions = [
                 lifecycle       : "2.1.0",
         ],
         google   : [
-                maps  : "17.0.0",
+                maps  : [
+                        core : "17.0.0",
+                        utils: "0.6.1"
+                ],
                 dagger: "2.24",
                 gson  : "2.8.6",
         ],
