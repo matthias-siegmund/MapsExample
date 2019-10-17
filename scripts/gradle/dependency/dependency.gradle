@@ -19,7 +19,6 @@ ext.dependency = [
                 ],
                 gson  : "com.google.code.gson:gson:${versions.google.gson}",
         ],
-        graphview: "com.jjoe64:graphview:${versions.graphview}",
         kotlin   : [
                 jdk: "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlin.core}",
         ],
