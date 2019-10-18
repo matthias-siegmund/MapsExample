@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dev.siegmund.core.rx.SchedulerConfiguration
 import dev.siegmund.core.rx.extensions.plus
+import dev.siegmund.core.ui.SingleLiveEvent
 import dev.siegmund.map.api.ScooterRepository
 import dev.siegmund.map.api.model.Scooter
 import io.reactivex.disposables.CompositeDisposable
@@ -24,7 +25,7 @@ class MapViewModel(
     val zoomOnClusterCenter: LiveData<List<Location>>
         get() = _zoomOnClusterCenter
 
-    private val _showError = MutableLiveData<Unit>()
+    private val _showError = SingleLiveEvent<Unit>()
     val showError: LiveData<Unit>
         get() = _showError
 
@@ -46,7 +47,7 @@ class MapViewModel(
                 _zoomOnClusterCenter.value = scooters.map { Location(it.latitude, it.longitude) }
             }, { error ->
                 Timber.e(error, "getScootersForPickup()")
-                _showError.value = Unit
+                _showError.call()
             })
     }
 }
