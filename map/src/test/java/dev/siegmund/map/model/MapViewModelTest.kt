@@ -126,7 +126,7 @@ class MapViewModelTest {
         mapViewModel.onStart()
 
         // then
-        verify(showErrorObserver, times(1)).onChanged(Unit)
+        verify(showErrorObserver, times(1)).onChanged(null)
     }
 
     private companion object {
